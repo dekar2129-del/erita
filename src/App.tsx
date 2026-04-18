@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowUpRight, 
@@ -14,85 +14,83 @@ import {
   CheckCircle2,
   Menu,
   X,
-  Wrench,
-  Droplets,
-  Paintbrush,
-  Zap,
-  Home,
+  BookOpen,
+  Trophy,
+  Timer,
+  Stethoscope,
+  Microscope,
+  GraduationCap,
   ShieldCheck,
   Search,
   Users,
-  Hammer,
-  Sparkles,
-  Trash2,
-  Bug,
-  Smartphone,
-  Calendar,
-  Award
+  Award,
+  BarChart3,
+  Dna,
+  Beaker,
+  FileText,
+  MousePointer2,
+  Bell
 } from 'lucide-react';
 
-const NAV_LINKS = ['Home', 'Services', 'How it Works', 'Professionals', 'Contact'];
+const NAV_LINKS = ['Home', 'Quizzes', 'Leaderboard', 'Exams', 'About'];
 
-const SERVICES = [
+const CATEGORIES = [
   { 
     id: '01', 
-    title: 'Full Home Cleaning', 
-    icon: <Sparkles className="text-orange-500" />, 
-    price: 'Starting at $49',
-    description: 'Deep cleaning for every corner of your home, from floors to ceilings.',
-    image: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=800'
+    title: 'Anatomy & Physiology', 
+    icon: <Dna className="text-blue-500" />, 
+    count: '1,200+ Questions',
+    description: 'Master the architectural foundations of the human body and functional systems.',
+    image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800'
   },
   { 
     id: '02', 
-    title: 'Expert Plumbing', 
-    icon: <Droplets className="text-blue-500" />, 
-    price: 'Flat $29 Visit Fee',
-    description: 'Fixing leaks, installing pipes, and ensuring your water flows perfectly.',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800'
+    title: 'Surgical Principles', 
+    icon: <Stethoscope className="text-teal-500" />, 
+    count: '850+ Questions',
+    description: 'Core concepts of perioperative care, surgical techniques, and trauma management.',
+    image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=800'
   },
   { 
     id: '03', 
-    title: 'Electrical Repairs', 
-    icon: <Zap className="text-yellow-500" />, 
-    price: 'Safety Certified',
-    description: 'Restoring power, fixing short circuits, and installing smart home tech.',
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800'
+    title: 'Pathology & Microbiology', 
+    icon: <Beaker className="text-purple-500" />, 
+    count: '980+ Questions',
+    description: 'Detailed analysis of disease mechanisms and infectious agents.',
+    image: 'https://images.unsplash.com/photo-1579154273821-ad15e4f4549f?auto=format&fit=crop&q=80&w=800'
   },
   { 
     id: '04', 
-    title: 'Professional Painting', 
-    icon: <Paintbrush className="text-purple-500" />, 
-    price: 'Free Quote',
-    description: 'Giving your walls a new life with premium colors and perfect finish.',
-    image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=800'
-  },
-  { 
-    id: '05', 
-    title: 'Pest Control', 
-    icon: <Bug className="text-red-500" />, 
-    price: 'Guaranteed Results',
-    description: 'Eco-friendly and effective solutions to keep your home pest-free.',
-    image: 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a30?auto=format&fit=crop&q=80&w=800'
-  },
-  { 
-    id: '06', 
-    title: 'Appliance Repair', 
-    icon: <Smartphone className="text-emerald-500" />, 
-    price: 'Genuine Parts',
-    description: 'Fixing fridges, washing machines, and all your kitchen essentials.',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800'
+    title: 'Clinical Pharmacology', 
+    icon: <Microscope className="text-emerald-500" />, 
+    count: '720+ Questions',
+    description: 'Pharmacokinetics, dynamics, and therapeutics for comprehensive patient care.',
+    image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbbb88?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
-const PROFESSIONALS = [
-  { name: 'John Doe', role: 'Master Plumber', rating: 4.9, image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Sarah Smith', role: 'Lead Interior Painter', rating: 5.0, image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400' },
-  { name: 'David Lee', role: 'Electrical Specialist', rating: 4.8, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' }
+const LEADERBOARD = [
+  { name: 'Dr. Aaron Chen', score: '98.5%', specialty: 'Neuro-Surgery', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Dr. Sophie Varma', score: '97.2%', specialty: 'Orthopedics', image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Dr. Julian Ross', score: '96.8%', specialty: 'Cardiology', image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=400' }
 ];
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 42, seconds: 18 });
+
+  // Simple countdown effect simulation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white bg-paper">
@@ -100,10 +98,10 @@ export default function App() {
       <header className="sticky top-0 z-50 glass h-20">
         <div className="max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
-              <Home size={24} strokeWidth={2.5} />
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
+              <GraduationCap size={24} strokeWidth={2.5} />
             </div>
-            <div className="text-2xl font-black text-ink tracking-tight uppercase">LOCAL<span className="text-primary italic">JUGAAD</span></div>
+            <div className="text-2xl font-black text-ink tracking-tight uppercase">ARC<span className="text-primary tracking-[0.2em]">MRCS</span></div>
           </div>
 
           <nav className="hidden lg:flex items-center gap-10">
@@ -111,7 +109,7 @@ export default function App() {
               <a 
                 key={link} 
                 href={`#${link.toLowerCase().replace(/\s+/g, '-')}`} 
-                className="text-[13px] font-black text-ink/60 hover:text-primary transition-all uppercase tracking-[0.2em]"
+                className="text-[11px] font-bold text-ink/60 hover:text-primary transition-all uppercase tracking-[0.2em]"
                 onClick={() => link === 'Home' && window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 {link}
@@ -120,11 +118,11 @@ export default function App() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
-             <button className="text-[13px] font-black text-ink/60 hover:text-primary transition-all uppercase tracking-widest">
-                Partner Login
+             <button className="text-[11px] font-bold text-ink/40 hover:text-primary transition-all uppercase tracking-widest">
+                Login
              </button>
-             <button className="bg-primary text-white btn-pill !px-10 !py-3 text-[13px] hover:shadow-xl hover:shadow-primary/20 transition-all uppercase">
-               Book Service
+             <button className="bg-primary text-white btn-pill !px-8 !py-2.5 text-[11px] hover:shadow-xl hover:shadow-primary/20 transition-all uppercase tracking-widest border border-primary/10">
+               Join Contest
              </button>
           </div>
 
@@ -141,41 +139,40 @@ export default function App() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[60] bg-white p-6 flex flex-col"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            className="fixed inset-0 z-[60] bg-white p-8 flex flex-col"
           >
-            <div className="flex justify-between items-center mb-10">
-               <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
-                    <Home size={20} strokeWidth={2.5} />
+            <div className="flex justify-between items-center mb-12">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+                    <GraduationCap size={24} />
                   </div>
-                  <span className="text-xl font-black text-ink uppercase tracking-tight">Localjugaad</span>
+                  <span className="text-2xl font-black text-ink uppercase">ARCMRCS</span>
                </div>
                <button onClick={() => setMobileMenuOpen(false)} className="text-ink">
                  <X size={28} />
                </button>
             </div>
-            <nav className="flex flex-col gap-6 items-center flex-1 justify-center">
+            <nav className="flex flex-col gap-8 flex-1">
               {NAV_LINKS.map((link) => (
                 <a 
                   key={link} 
                   href={`#${link.toLowerCase().replace(/\s+/g, '-')}`} 
-                  className="text-4xl font-black text-ink hover:text-primary transition-colors uppercase tracking-tighter"
+                  className="text-3xl font-black text-ink hover:text-primary transition-colors uppercase tracking-tight"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link}
                 </a>
               ))}
-              <div className="w-full flex flex-col gap-4 mt-12">
-                <button className="btn-pill bg-primary text-white w-full !py-5 text-lg font-black uppercase">
-                  Find Professionals
-                </button>
-                <button className="btn-pill bg-surface text-ink w-full !py-5 text-lg font-black uppercase">
-                  Become a Partner
-                </button>
-              </div>
+              <div className="w-full h-[1px] bg-gray-100 my-4"></div>
+              <button className="btn-pill bg-primary text-white w-full !py-5 text-lg font-black uppercase shadow-lg shadow-primary/20">
+                Register Now
+              </button>
+              <button className="btn-pill bg-surface text-ink w-full !py-5 text-lg font-black uppercase border border-gray-100">
+                Candidate Login
+              </button>
             </nav>
           </motion.div>
         )}
@@ -183,101 +180,149 @@ export default function App() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section id="home" className="relative pt-24 pb-40 px-8 bg-surface">
-          <div className="max-w-7xl mx-auto">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div className="flex flex-col items-start relative z-10">
+        <section id="home" className="relative pt-20 pb-40 px-8 bg-paper overflow-hidden">
+          {/* Decorative Elements */}
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -mr-40 -mt-40"></div>
+          <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-teal-500/5 rounded-full blur-[80px] -ml-20"></div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div className="flex flex-col items-start">
                    <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2 mb-8"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 mb-10 px-4 py-2 bg-primary/10 rounded-full"
                    >
-                     <div className="w-12 h-[2px] bg-primary"></div>
-                     <span className="font-mono text-[12px] font-bold text-primary uppercase tracking-[0.4em]">Home Service On Demand</span>
+                     <Trophy size={16} className="text-primary" />
+                     <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em]">Next National Contest Live In:</span>
                    </motion.div>
                    
+                   {/* Mini Countdown Display */}
+                   <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex gap-4 mb-12"
+                   >
+                      {[
+                        { val: timeLeft.hours, label: 'HRS' },
+                        { val: timeLeft.minutes, label: 'MIN' },
+                        { val: timeLeft.seconds, label: 'SEC' }
+                      ].map((t, i) => (
+                        <div key={i} className="flex flex-col items-center">
+                           <div className="text-4xl font-black text-ink font-mono tabular-nums leading-none mb-2">{t.val.toString().padStart(2, '0')}</div>
+                           <div className="text-[8px] font-bold text-ink/30 uppercase tracking-widest">{t.label}</div>
+                        </div>
+                      ))}
+                   </motion.div>
+
                    <motion.h1 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-6xl md:text-[90px] font-black leading-[0.95] mb-10 tracking-tighter text-ink uppercase"
+                    className="text-6xl md:text-[100px] font-black leading-[0.88] mb-10 tracking-tighter text-ink uppercase"
                    >
-                     Fix Your Home <br /> <span className="text-primary italic">In Minutes.</span>
+                     Master The <br /> <span className="text-primary decoration-primary/20 decoration-8 underline-offset-[16px]">Exam.</span>
                    </motion.h1>
                    
                    <motion.p 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-xl text-ink/60 font-medium max-w-xl mb-12 leading-relaxed"
+                    className="text-xl text-ink/50 font-medium max-w-xl mb-12 leading-relaxed"
                    >
-                     Trusted by 20,000+ households. Instant booking, verified professionals, and 100% satisfaction guarantee.
+                     The most comprehensive medical quiz platform for MRCS trainees. Detailed rationales, peer benchmarking, and high-yield surgical clinical scenarios.
                    </motion.p>
 
-                   {/* Hero Search Box */}
                    <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="w-full max-w-2xl bg-white p-2 rounded-[32px] modern-shadow border border-orange-100 flex flex-col md:flex-row gap-2"
+                    className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
                    >
-                      <div className="flex-1 flex items-center gap-4 px-6 py-4">
-                         <Search size={22} className="text-primary" />
-                         <input 
-                            type="text" 
-                            placeholder="What do you need help with?" 
-                            className="bg-transparent border-none outline-none w-full font-bold text-ink placeholder:text-ink/30 italic text-lg"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                         />
-                      </div>
-                      <button className="bg-primary text-white btn-pill !py-4 md:!px-12 text-lg font-black uppercase flex items-center justify-center gap-3 active:bg-ink">
-                         Search
-                         <ArrowUpRight size={20} />
+                      <button className="bg-primary text-white btn-pill !px-12 !py-5 text-sm font-bold uppercase tracking-widest shadow-2xl shadow-primary/30 flex items-center justify-center gap-3 group">
+                         Start Free Quiz
+                         <MousePointer2 size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      </button>
+                      <button className="bg-white text-ink btn-pill !px-12 !py-5 text-sm font-bold uppercase tracking-widest border border-gray-200 hover:border-primary/30 transition-all flex items-center justify-center gap-3">
+                         View Leaderboard
+                         <BarChart3 size={18} />
                       </button>
                    </motion.div>
 
-                   <div className="flex flex-wrap gap-10 mt-16 pt-10 border-t border-orange-200/50 w-full">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                            <ShieldCheck size={20} />
-                         </div>
-                         <span className="text-[10px] font-black uppercase tracking-widest text-ink/40">Verified Partners</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                            <Phone size={20} />
-                         </div>
-                         <span className="text-[10px] font-black uppercase tracking-widest text-ink/40">24/7 Support</span>
-                      </div>
+                   <div className="flex items-center gap-12 mt-20 pt-10 border-t border-gray-100 w-full">
+                      {[
+                        { val: '15k+', label: 'Active Candidates' },
+                        { val: '2.5M+', label: 'Questions Solved' },
+                        { val: '98%', label: 'Success Rate' }
+                      ].map((s, i) => (
+                        <div key={i}>
+                           <div className="text-2xl font-black text-ink mb-1">{s.val}</div>
+                           <div className="text-[10px] font-bold text-ink/30 uppercase tracking-widest">{s.label}</div>
+                        </div>
+                      ))}
                    </div>
                 </div>
 
-                <div className="relative order-first lg:order-last">
-                   <div className="relative aspect-square flex items-center justify-center">
-                      {/* Floating Accent Shapes */}
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32"></div>
-                      <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full blur-[60px] -ml-24 -mb-24"></div>
-                      
-                      {/* Hero Image Container */}
-                      <div className="relative z-10 w-[90%] aspect-[4/5] rounded-[80px] overflow-hidden border-8 border-white modern-shadow">
-                        <img 
-                          src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800" 
-                          alt="Professional Handyman at Work" 
-                          className="w-full h-full object-cover"
-                          referrerPolicy="no-referrer"
-                        />
+                <div className="relative">
+                   <div className="relative aspect-square">
+                      {/* Abstract Surgical Grid Background */}
+                      <div className="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-px opacity-10">
+                        {Array.from({ length: 36 }).map((_, i) => (
+                          <div key={i} className="border border-primary"></div>
+                        ))}
                       </div>
-
-                      {/* Floating Trust Card */}
-                      <div className="absolute bottom-12 -right-12 z-20 bg-ink text-white p-10 rounded-[48px] shadow-2xl skew-x-[-4deg]">
-                         <div className="flex items-center gap-4 mb-2">
-                            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white">
-                               <Sparkles size={24} />
+                      
+                      {/* Main Visual: Dashboard Concept */}
+                      <div className="relative z-10 w-full h-full p-8 flex items-center justify-center animate-float">
+                        <div className="relative w-full aspect-[4/5] bg-ink rounded-[40px] overflow-hidden p-8 shadow-2xl border-4 border-white/5">
+                            <div className="flex justify-between items-center mb-10">
+                               <div className="flex gap-2">
+                                  <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                  <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                  <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
+                               </div>
+                               <div className="px-4 py-1.5 bg-white/5 rounded-full text-[10px] text-white/40 uppercase tracking-widest font-mono">Simulating MRCS-A</div>
                             </div>
-                            <div className="text-3xl font-black italic tracking-tighter">4.9/5</div>
-                         </div>
-                         <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] leading-none">Customer Rating</div>
+
+                            <div className="space-y-10">
+                               <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
+                                  <div className="text-[10px] text-primary uppercase tracking-[0.3em] font-bold mb-4">Question #42 / 180</div>
+                                  <div className="text-lg text-white font-bold mb-6 leading-snug tracking-tight">A 65-year-old male presents with sudden onset epigastric pain and signs of peritonism. Radiography reveals...</div>
+                                  <div className="space-y-3">
+                                     {[
+                                       { t: 'Pneumoperitoneum', active: true },
+                                       { t: 'Subphrenic Abscess', active: false },
+                                       { t: 'Hiatal Hernia', active: false }
+                                     ].map((opt, idx) => (
+                                       <div key={idx} className={`p-4 rounded-xl border text-xs font-bold transition-all ${opt.active ? 'bg-primary border-primary text-white' : 'bg-white/5 border-white/10 text-white/40'}`}>
+                                          {opt.t}
+                                       </div>
+                                     ))}
+                                  </div>
+                               </div>
+
+                               <div className="flex gap-4">
+                                  <div className="flex-1 p-6 bg-primary/10 rounded-3xl border border-primary/20">
+                                     <div className="text-[8px] text-primary uppercase tracking-widest font-bold mb-2 text-center">Your Performance</div>
+                                     <div className="text-3xl font-black text-white text-center italic">Top 3%</div>
+                                  </div>
+                                  <div className="flex-1 p-6 bg-white/5 rounded-3xl border border-white/10 flex items-center justify-center">
+                                     <BarChart3 className="text-white/40" size={32} />
+                                  </div>
+                               </div>
+                            </div>
+                        </div>
+
+                        {/* Floating Notifications */}
+                        <div className="absolute top-1/4 -right-12 z-20 bg-white p-6 rounded-[24px] shadow-2xl border border-gray-100 flex items-center gap-4 animate-bounce-subtle">
+                           <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500">
+                              <Bell size={18} />
+                           </div>
+                           <div className="flex flex-col">
+                              <span className="text-[10px] font-black text-ink uppercase tracking-tight leading-none mb-1">New Contest</span>
+                              <span className="text-[10px] text-ink/30 font-bold uppercase tracking-widest">Starts Saturday</span>
+                           </div>
+                        </div>
                       </div>
                    </div>
                 </div>
@@ -285,44 +330,47 @@ export default function App() {
           </div>
         </section>
 
-        {/* Featured Services Grid */}
-        <section id="services" className="py-40 px-8 bg-paper">
+        {/* Quiz Categories Section */}
+        <section id="quizzes" className="py-40 px-8 bg-paper relative">
            <div className="max-w-7xl mx-auto">
-              <div className="flex flex-col md:flex-row items-end justify-between gap-12 mb-24">
-                 <div>
-                    <div className="flex items-center gap-2 mb-6">
-                      <div className="w-12 h-[2px] bg-primary"></div>
-                      <span className="font-mono text-sm font-bold text-primary uppercase tracking-[0.4em]">Our Offerings</span>
+              <div className="flex flex-col md:flex-row items-end justify-between gap-12 mb-32">
+                 <div className="max-w-2xl">
+                    <div className="flex items-center gap-3 mb-8">
+                       <div className="w-10 h-0.5 bg-primary"></div>
+                       <span className="font-mono text-[10px] font-bold text-primary uppercase tracking-[0.5em]">Subject Domains</span>
                     </div>
-                    <h2 className="text-5xl md:text-8xl font-black tracking-tight leading-none uppercase italic text-ink">
-                      Popular <span className="text-primary">Services.</span>
+                    <h2 className="text-6xl md:text-8xl font-black text-ink uppercase tracking-tighter leading-none italic">
+                      Specialized <span className="text-primary">Curriculum.</span>
                     </h2>
                  </div>
-                 <p className="max-w-md text-ink/40 font-medium text-lg leading-relaxed">
-                   Reliable solutions for your home maintenance needs. Book experienced professionals in just a few taps.
+                 <p className="max-w-md text-ink/40 font-medium text-lg leading-relaxed mb-4">
+                   Curated subject paths designed to pinpoint knowledge gaps and fortify clinical reasoning for professional certification.
                  </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 {SERVICES.map((service) => (
-                   <div key={service.id} className="group flex flex-col bg-surface rounded-[60px] overflow-hidden border border-transparent hover:border-orange-200 transition-all duration-500 hover:shadow-2xl">
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                         <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0" referrerPolicy="no-referrer" />
-                         <div className="absolute top-6 left-6 p-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-sm">
-                            {service.icon}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                 {CATEGORIES.map((cat) => (
+                   <div key={cat.id} className="group relative flex flex-col bg-surface rounded-[40px] overflow-hidden border border-gray-100 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl">
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                         <img src={cat.image} alt={cat.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent flex items-end p-8">
+                            <span className="text-[8px] font-black uppercase tracking-widest text-white/60 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">{cat.count}</span>
                          </div>
                       </div>
-                      <div className="p-10 flex flex-col flex-1">
-                         <div className="flex justify-between items-start mb-6">
-                            <h3 className="text-2xl font-black tracking-tight text-ink uppercase italic">{service.title}</h3>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-4 py-2 rounded-full">{service.price}</span>
+                      <div className="p-10 flex flex-col flex-1 relative">
+                         <div className="absolute -top-10 left-10 w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
+                            {cat.icon}
                          </div>
-                         <p className="text-ink/40 font-medium leading-relaxed mb-10 flex-1">
-                           {service.description}
+                         <div className="mt-8 mb-6">
+                            <h3 className="text-2xl font-black tracking-tight text-ink uppercase italic leading-none mb-2">{cat.title}</h3>
+                            <div className="w-8 h-1 bg-primary/20 rounded-full group-hover:w-full transition-all duration-700"></div>
+                         </div>
+                         <p className="text-ink/40 font-medium leading-relaxed mb-10 flex-1 text-sm">
+                           {cat.description}
                          </p>
-                         <button className="w-full flex items-center justify-between p-6 bg-white rounded-3xl group-hover:bg-primary group-hover:text-white transition-all duration-500 border border-orange-100 group-hover:border-transparent">
-                            <span className="text-sm font-black uppercase tracking-widest italic">Book Consultation</span>
-                            <ChevronRight size={20} />
+                         <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:gap-6 transition-all">
+                            Explore subject
+                            <ChevronRight size={14} />
                          </button>
                       </div>
                    </div>
@@ -331,162 +379,140 @@ export default function App() {
            </div>
         </section>
 
-        {/* How It Works Section */}
-        <section id="how-it-works" className="py-40 px-8 bg-ink text-white relative overflow-hidden">
-           <div className="absolute top-0 left-0 w-full h-[1px] bg-white/10"></div>
-           <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/10"></div>
+        {/* Performance & Leaderboard Section */}
+        <section id="leaderboard" className="py-40 px-8 bg-ink text-white overflow-hidden relative">
+           {/* Background Mesh */}
+           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent"></div>
+           
+           <div className="max-w-7xl mx-auto relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                 <div className="order-last lg:order-first">
+                    <div className="space-y-4">
+                       {LEADERBOARD.map((user, idx) => (
+                         <motion.div 
+                          key={idx}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="flex items-center justify-between p-8 bg-white/5 border border-white/10 rounded-[40px] hover:bg-white/10 transition-all cursor-default group"
+                         >
+                            <div className="flex items-center gap-8">
+                               <div className="flex flex-col items-center">
+                                  <span className="text-2xl font-black italic text-primary">0{idx + 1}</span>
+                                  <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">RANK</span>
+                               </div>
+                               <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors">
+                                  <img src={user.image} alt={user.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                               </div>
+                               <div>
+                                  <h4 className="text-xl font-black uppercase italic tracking-tight">{user.name}</h4>
+                                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.3em]">{user.specialty}</p>
+                               </div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                               <span className="text-4xl font-black text-white tabular-nums tracking-tighter">{user.score}</span>
+                               <div className="flex items-center gap-1 text-primary">
+                                  <Star size={10} fill="currentColor" />
+                                  <span className="text-[8px] font-black uppercase tracking-widest">Percentile</span>
+                               </div>
+                            </div>
+                         </motion.div>
+                       ))}
+                    </div>
+                 </div>
+
+                 <div className="text-left">
+                    <div className="flex items-center gap-3 mb-8">
+                       <div className="w-10 h-0.5 bg-primary"></div>
+                       <span className="font-mono text-sm font-bold text-primary uppercase tracking-[0.4em]">Peer Benchmarking</span>
+                    </div>
+                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] italic mb-10">
+                      National <br /> <span className="text-primary italic">Standings.</span>
+                    </h2>
+                    <p className="text-xl text-white/40 font-medium leading-relaxed mb-16 max-w-xl">
+                      Compare your progress with thousands of aspirants globally. Our intelligent scoring algorithm segments performance by subject, clinical domain, and speed.
+                    </p>
+                    
+                    <div className="grid grid-cols-2 gap-8">
+                       <div className="p-8 rounded-[40px] bg-white/5 border border-white/10">
+                          <BarChart3 className="text-primary mb-6" size={32} />
+                          <h5 className="text-lg font-black uppercase italic mb-2">Real-time Analytics</h5>
+                          <p className="text-xs text-white/30 font-medium leading-relaxed">Instantly track your percentile ranking across 20+ medical specialties.</p>
+                       </div>
+                       <div className="p-8 rounded-[40px] bg-white/5 border border-white/10">
+                          <Users className="text-primary mb-6" size={32} />
+                          <h5 className="text-lg font-black uppercase italic mb-2">Peer Comparison</h5>
+                          <p className="text-xs text-white/30 font-medium leading-relaxed">See how top scorers approach high-yield clinical vignettes.</p>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* Feature Highlights Section */}
+        <section id="exams" className="py-40 px-8 bg-paper">
            <div className="max-w-7xl mx-auto">
               <div className="text-center mb-32">
-                 <span className="text-primary font-bold text-sm uppercase tracking-[0.4em] mb-8 block font-mono">Simple Steps</span>
-                 <h2 className="text-6xl md:text-[100px] font-black uppercase tracking-tighter leading-none italic">As Easy As <br /> <span className="text-primary">1-2-3.</span></h2>
+                 <span className="text-primary font-bold text-[10px] uppercase tracking-[0.4em] mb-8 block font-mono">Expert Methodology</span>
+                 <h2 className="text-6xl md:text-[80px] font-black uppercase tracking-tighter leading-tight italic text-ink">The ARC <br /> <span className="text-primary italic">Standard.</span></h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 overflow-hidden rounded-[80px]">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                   { id: '01', title: 'Choose Service', desc: 'Select from over 50+ categories curated just for your household needs.', icon: <Search size={40} /> },
-                   { id: '02', title: 'Pick Slot', desc: 'Choose a date and time that fits your busy schedule. We work around you.', icon: <Calendar size={40} /> },
-                   { id: '03', title: 'Expert Arrives', desc: 'Our verified professional arrives at your doorstep and fixes it all.', icon: <CheckCircle2 size={40} /> }
-                 ].map((step) => (
-                   <div key={step.id} className="p-20 bg-ink flex flex-col items-center text-center group">
-                      <div className="text-[120px] font-black text-white/5 absolute -top-4 -left-4 pointer-events-none group-hover:text-primary/10 transition-colors">{step.id}</div>
-                      <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/10 flex items-center justify-center mb-12 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                         {step.icon}
+                   { title: 'Evidence-Based Rationales', desc: 'Every correct and incorrect option is explained with references to authoritative medical texts and clinical guidelines.', icon: <FileText size={24} /> },
+                   { title: 'Clinical Context Layer', desc: 'Questions are integrated with real clinical scenarios, pathology slides, and surgical radiological imaging.', icon: <Microscope size={24} /> },
+                   { title: 'Exam Pattern Fidelity', desc: 'Quizzes perfectly replicate the latest exam interfaces and testing environment of the MRCS Part A & B.', icon: <Timer size={24} /> }
+                 ].map((feature, idx) => (
+                   <div key={idx} className="p-16 rounded-[60px] bg-surface border border-gray-100 flex flex-col items-center text-center group hover:bg-white hover:shadow-2xl hover:border-primary/20 transition-all duration-500">
+                      <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary mb-10 group-hover:bg-primary group-hover:text-white transition-all">
+                         {feature.icon}
                       </div>
-                      <h4 className="text-3xl font-black uppercase italic tracking-tight mb-6">{step.title}</h4>
-                      <p className="text-white/40 font-medium leading-relaxed max-w-xs">{step.desc}</p>
+                      <h4 className="text-2xl font-black uppercase italic tracking-tight mb-8 text-ink">{feature.title}</h4>
+                      <p className="text-ink/40 font-medium leading-relaxed text-sm">{feature.desc}</p>
                    </div>
                  ))}
               </div>
            </div>
         </section>
 
-        {/* Professionals Section */}
-        <section id="professionals" className="py-40 px-8 bg-paper">
+        {/* CTA Section */}
+        <section className="py-24 px-8 bg-paper">
            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-                 <div>
-                    <div className="flex items-center gap-2 mb-8">
-                      <div className="w-12 h-[2px] bg-primary"></div>
-                      <span className="font-mono text-sm font-bold text-primary uppercase tracking-[0.4em]">The Backbone</span>
-                    </div>
-                    <h2 className="text-6xl md:text-8xl font-black text-ink uppercase tracking-tighter leading-[0.9] italic mb-12">
-                      Trusted <br /> <span className="text-primary">Experts.</span>
-                    </h2>
-                    <p className="text-xl text-ink/60 font-medium leading-relaxed mb-16 max-w-xl">
-                      Our professionals are pre-vetted, background-checked, and highly rated. We only partner with the best in the industry.
-                    </p>
-                    
-                    <div className="space-y-6">
-                       {[
-                         { title: 'Background Checked', icon: <ShieldCheck size={20} /> },
-                         { title: 'Training & Certification', icon: <Award size={20} /> },
-                         { title: 'Quality Guarantee', icon: <CheckCircle2 size={20} /> }
-                       ].map((item, idx) => (
-                         <div key={idx} className="flex items-center gap-6 p-6 bg-surface rounded-[32px] border border-orange-100 hover:border-primary/30 transition-all cursor-default group">
-                            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
-                               {item.icon}
-                            </div>
-                            <span className="text-lg font-black uppercase italic text-ink">{item.title}</span>
-                         </div>
-                       ))}
+              <div className="relative rounded-[80px] bg-primary p-16 lg:p-32 overflow-hidden flex flex-col items-center text-center">
+                 <div className="absolute inset-0 opacity-10 pointer-events-none">
+                    <div className="grid grid-cols-12 grid-rows-12 gap-px w-full h-full">
+                       {Array.from({ length: 144 }).map((_, i) => <div key={i} className="border border-white"></div>)}
                     </div>
                  </div>
-
-                 <div className="grid grid-cols-2 gap-6 relative">
-                    <div className="flex flex-col gap-6 pt-12">
-                       {PROFESSIONALS.slice(0, 2).map((pro, i) => (
-                         <div key={i} className="bg-white p-6 rounded-[48px] shadow-xl border border-gray-100 flex flex-col items-center text-center">
-                            <div className="w-32 h-32 rounded-[32px] overflow-hidden mb-6">
-                               <img src={pro.image} alt={pro.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                            </div>
-                            <h4 className="text-xl font-black text-ink uppercase italic leading-none mb-1">{pro.name}</h4>
-                            <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-4">{pro.role}</p>
-                            <div className="flex items-center gap-2 text-yellow-500">
-                               <Star size={14} fill="currentColor" />
-                               <span className="text-[10px] font-black text-ink">{pro.rating}</span>
-                            </div>
-                         </div>
-                       ))}
+                 
+                 <div className="relative z-10 flex flex-col items-center">
+                    <h2 className="text-5xl md:text-[100px] font-black uppercase tracking-tighter leading-[0.85] italic mb-10 text-white">Unlock Your <br /> <span className="text-ink">Potential.</span></h2>
+                    <p className="text-xl text-white/70 font-medium mb-16 max-w-2xl leading-relaxed">Join 15,000+ medical professionals already excelling with ARCMRCS. Start your preparation today.</p>
+                    <div className="flex flex-col sm:flex-row gap-6 w-full max-w-lg justify-center">
+                       <button className="bg-ink text-white btn-pill !px-12 !py-6 text-xl font-black uppercase italic hover:scale-105 transition-all w-full sm:w-auto shadow-2xl">Create Free Account</button>
+                       <button className="bg-white/10 text-white btn-pill !px-12 !py-6 text-xl font-black uppercase italic hover:bg-white/20 transition-all border border-white/20 w-full sm:w-auto backdrop-blur-md">Learn More</button>
                     </div>
-                    <div className="flex flex-col gap-6">
-                       {PROFESSIONALS.slice(1, 4).map((pro, i) => (
-                         <div key={i} className="bg-white p-6 rounded-[48px] shadow-xl border border-gray-100 flex flex-col items-center text-center">
-                            <div className="w-32 h-32 rounded-[32px] overflow-hidden mb-6">
-                               <img src={pro.image} alt={pro.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                            </div>
-                            <h4 className="text-xl font-black text-ink uppercase italic leading-none mb-1">{pro.name}</h4>
-                            <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-4">{pro.role}</p>
-                            <div className="flex items-center gap-2 text-yellow-500">
-                               <Star size={14} fill="currentColor" />
-                               <span className="text-[10px] font-black text-ink">{pro.rating}</span>
-                            </div>
-                         </div>
-                       ))}
-                       <div className="bg-primary p-6 rounded-[48px] shadow-xl text-white flex flex-col items-center justify-center text-center">
-                          <div className="text-4xl font-black italic tracking-tighter">500+</div>
-                          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">Verified Pros</p>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* Testimonials Marquee Section */}
-        <section className="py-24 bg-surface overflow-hidden border-y border-orange-100">
-           <div className="flex items-center animate-review-marquee whitespace-nowrap">
-              {[...Array(2)].map((_, i) => (
-                <div key={i} className="flex items-center gap-12 px-12">
-                   {[
-                     { name: 'Alice', quote: 'Cleaning done perfectly! Localjugaad is a lifesaver.' },
-                     { name: 'Robert', quote: 'Best plumbing service I have ever used. On time and professional.' },
-                     { name: 'Nisha', quote: 'The painter transformed my living room. Excellent work!' },
-                     { name: 'Mike', quote: 'Eco-friendly pest control worked wonders. No more bugs!' }
-                   ].map((item, idx) => (
-                     <div key={idx} className="bg-white px-10 py-6 rounded-full shadow-sm border border-orange-100 flex items-center gap-6">
-                        <div className="flex gap-1 text-yellow-400">
-                           <Star size={14} fill="currentColor" />
-                        </div>
-                        <p className="text-ink font-medium italic">"{item.quote}" — <span className="font-black text-primary uppercase text-xs tracking-widest">{item.name}</span></p>
-                     </div>
-                   ))}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        {/* CTA Banner */}
-        <section className="py-40 px-8 bg-paper overflow-hidden">
-           <div className="max-w-7xl mx-auto relative rounded-[80px] bg-primary p-16 lg:p-32 text-center text-white shadow-2xl shadow-primary/30">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[80px] -mr-40 -mt-40"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[60px] -ml-24 -mb-24"></div>
-              
-              <div className="relative z-10 flex flex-col items-center">
-                 <h2 className="text-5xl md:text-[120px] font-black uppercase tracking-tighter leading-[0.85] italic mb-12">Let Us Handle <br /> The <span className="text-black">Jugaad.</span></h2>
-                 <p className="text-xl text-white/80 font-medium mb-16 max-w-2xl leading-relaxed">Focus on what matters. We take care of your home chores with expert precision and professional care.</p>
-                 <div className="flex flex-col md:flex-row gap-6 w-full max-w-lg justify-center">
-                    <button className="bg-white text-primary btn-pill !px-12 !py-6 text-xl font-black uppercase italic hover:scale-105 transition-all w-full md:w-auto">Book Now</button>
-                    <button className="bg-ink text-white btn-pill !px-12 !py-6 text-xl font-black uppercase italic hover:bg-white/10 transition-all border border-white/10 w-full md:w-auto">Contact Us</button>
                  </div>
               </div>
            </div>
         </section>
 
         {/* Footer */}
-        <footer id="contact" className="py-24 px-8 bg-surface border-t border-orange-100">
+        <footer id="about" className="py-24 px-8 bg-surface border-t border-gray-100">
            <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-20 mb-20">
-                 <div className="lg:col-span-2 flex flex-col items-center lg:items-start text-center lg:text-left">
-                    <div className="flex items-center gap-4 mb-8">
-                       <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white">
-                         <Home size={28} strokeWidth={2.5} />
+                 <div className="lg:col-span-2">
+                    <div className="flex items-center gap-4 mb-8 justify-center lg:justify-start">
+                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+                         <GraduationCap size={28} strokeWidth={2.5} />
                        </div>
-                       <div className="text-3xl font-black tracking-tight leading-none uppercase italic">LOCAL<span className="text-primary">JUGAAD</span></div>
+                       <div className="text-3xl font-black tracking-tight leading-none uppercase italic text-ink">ARC<span className="text-primary">MRCS</span></div>
                     </div>
-                    <p className="text-lg text-ink/40 max-w-md font-medium leading-relaxed italic mb-10">Premium on-demand home service platform connecting you with expert professionals. We fix, clean, and maintain your home so you don't have to.</p>
-                    <div className="flex items-center gap-4">
+                    <p className="text-lg text-ink/40 max-w-md font-medium leading-relaxed italic mb-10 text-center lg:text-left">The premier diagnostic testing and exam preparation suite for international surgical and medical certification.</p>
+                    <div className="flex items-center gap-4 justify-center lg:justify-start">
                         {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
-                          <a key={idx} href="#" className="w-12 h-12 flex items-center justify-center bg-white rounded-2xl hover:bg-primary hover:text-white transition-all border border-orange-100 text-ink/20">
+                          <a key={idx} href="#" className="w-12 h-12 flex items-center justify-center bg-white rounded-2xl hover:bg-primary hover:text-white transition-all border border-gray-100 text-ink/20 shadow-sm">
                             <Icon size={18} />
                           </a>
                         ))}
@@ -494,28 +520,28 @@ export default function App() {
                  </div>
 
                  <div className="flex flex-col gap-8 text-center lg:text-left">
-                    <h5 className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Navigation</h5>
+                    <h5 className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Resources</h5>
                     <div className="flex flex-col gap-4">
-                       {NAV_LINKS.map(link => <a key={link} href={`#${link.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm font-bold text-ink/60 hover:text-primary transition-colors italic">{link}</a>)}
+                       {['Quiz Library', 'Mock Exams', 'Study Guides', 'Performance Tips'].map(link => <a key={link} href="#" className="text-sm font-bold text-ink/40 hover:text-primary transition-colors italic uppercase tracking-widest leading-none">{link}</a>)}
                     </div>
                  </div>
 
                  <div className="flex flex-col gap-8 text-center lg:text-left">
-                    <h5 className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Talk to us</h5>
+                    <h5 className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Connect</h5>
                     <div className="flex flex-col gap-4">
-                       <a href="tel:+1234567890" className="text-xl font-black text-ink italic hover:text-primary transition-colors underline decoration-primary/20 underline-offset-8">+1 (800) LOCAL-JG</a>
-                       <p className="text-sm font-bold text-ink/40 tracking-tight leading-relaxed italic">101 Service Lane, Suite 202 <br /> Metro City Central</p>
+                       <a href="mailto:support@arcmrcs.com" className="text-lg font-black text-ink italic hover:text-primary transition-colors underline decoration-primary/20 underline-offset-8">hello@arcmrcs.com</a>
+                       <p className="text-sm font-bold text-ink/40 tracking-tight leading-relaxed italic uppercase">Academic Heights, Unit 404 <br /> Medical District, London</p>
                     </div>
                  </div>
               </div>
 
-              <div className="flex flex-col md:flex-row justify-between items-center gap-10 border-t border-orange-100 pt-12">
-                 <p className="text-[10px] text-ink/20 font-bold uppercase tracking-[0.2em] italic">© 2026 LOCALJUGAAD SERVICES PVT LTD. ALL RIGHTS RESERVED.</p>
-                 <div className="flex items-center gap-6">
-                    <a href="#" className="text-[10px] text-ink/20 font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Privacy</a>
-                    <a href="#" className="text-[10px] text-ink/20 font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Terms</a>
-                    <p className="text-[10px] text-ink/20 font-bold uppercase tracking-[0.2em]">
-                       Designed by <a href="https://www.ozosoft.in/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-all">OZOSOFT</a>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-10 border-t border-gray-100 pt-12">
+                 <p className="text-[9px] text-ink/30 font-bold uppercase tracking-[0.2em] italic">© 2026 ARCMRCS ACADEMY. ALL TRADEMARKS REGISTERED TO THEIR RESPECTIVE OWNERS.</p>
+                 <div className="flex items-center gap-8">
+                    <a href="#" className="text-[9px] text-ink/30 font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="#" className="text-[9px] text-ink/30 font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Candidate Terms</a>
+                    <p className="text-[9px] text-ink/30 font-bold uppercase tracking-[0.2em]">
+                       Designed by <a href="https://www.ozosoft.in/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-all font-black">OZOSOFT</a>
                     </p>
                  </div>
               </div>
@@ -524,33 +550,33 @@ export default function App() {
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes bounce-subtle {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
         }
-        .animate-review-marquee {
-          display: inline-flex;
-          animation: marquee 50s linear infinite;
+        .animate-bounce-subtle {
+          animation: bounce-subtle 4s ease-in-out infinite;
         }
         @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(10px, -10px) rotate(1deg); }
+          66% { transform: translate(-10px, 10px) rotate(-1deg); }
         }
         .animate-float {
-          animation: float 6s ease-in-out infinite;
+          animation: float 10s ease-in-out infinite;
         }
         ::-webkit-scrollbar {
           width: 8px;
         }
         ::-webkit-scrollbar-track {
-          background: #FFF7ED;
+          background: #F8FAFC;
         }
         ::-webkit-scrollbar-thumb {
-          background: #FFD2A8;
+          background: #E2E8F0;
           border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background: #FF6B00;
+          background: #0EA5E9;
         }
       `}} />
     </div>
