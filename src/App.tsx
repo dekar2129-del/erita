@@ -21,18 +21,18 @@ import {
 const NAV_LINKS = ['Home', 'About', 'Services', 'Portfolio', 'Contact'];
 
 const SERVICES = [
-  { id: '01', title: 'Brand Identity', expanded: false },
+  { id: '01', title: 'UI/UX Design', expanded: false },
   { 
     id: '02', 
-    title: 'Digital Creation', 
+    title: 'Application Design', 
     expanded: true,
-    tags: ['E-Commerce', 'Portfolio', 'Custom Apps', 'Digital Strategy'],
-    description: 'We craft immersive digital experiences that mirror the elegance of your brand. Our approach blends timeless design with modern technology.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800'
+    tags: ['E-Commerce App', 'Mobile App Design', 'Responsive Web App', 'Corporate Web Design'],
+    description: 'We craft immersive digital experiences that mirror the vision of modern brands. Our approach blends timeless design with modern technology.',
+    image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800'
   },
-  { id: '03', title: 'Visual Content', expanded: false },
-  { id: '04', title: 'Strategic Audit', expanded: false },
-  { id: '05', title: 'Content Design', expanded: false },
+  { id: '03', title: 'Website Design', expanded: false },
+  { id: '04', title: 'UI Design', expanded: false },
+  { id: '05', title: 'Design System', expanded: false },
 ];
 
 export default function App() {
@@ -40,18 +40,23 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
+    <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white bg-paper">
       {/* Header */}
-      <header className="sticky top-0 z-50 glass">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <div className="text-2xl font-serif font-black tracking-widest text-ink italic">ERITA.</div>
+      <header className="sticky top-0 z-50 glass h-20">
+        <div className="max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+              <span className="font-black text-xl">P</span>
+            </div>
+            <div className="text-2xl font-black text-ink">Plusslicemeat.</div>
+          </div>
 
           <nav className="hidden md:flex items-center gap-10">
             {NAV_LINKS.map((link) => (
               <a 
                 key={link} 
                 href={`#${link.toLowerCase()}`} 
-                className="text-xs font-bold uppercase tracking-[0.2em] text-ink/60 hover:text-primary transition-all"
+                className="text-[14px] font-bold text-ink/60 hover:text-primary transition-all"
                 onClick={() => link === 'Home' && window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 {link}
@@ -59,7 +64,7 @@ export default function App() {
             ))}
           </nav>
 
-          <button className="hidden md:block px-8 py-3 bg-ink text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-primary transition-all active:scale-95 luxury-shadow">
+          <button className="hidden md:block bg-ink text-white btn-pill !px-8 !py-3 text-[14px] hover:bg-primary transition-all modern-shadow">
             Consultation
           </button>
 
@@ -82,24 +87,29 @@ export default function App() {
             className="fixed inset-0 z-[60] bg-white p-6 flex flex-col"
           >
             <div className="flex justify-between items-center mb-10">
-               <span className="text-xl font-serif font-black italic tracking-widest">ERITA.</span>
-               <button onClick={() => setMobileMenuOpen(false)}>
-                 <X size={24} />
+               <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                    <span className="font-black text-sm">P</span>
+                  </div>
+                  <span className="text-xl font-black text-ink">Plusslicemeat.</span>
+               </div>
+               <button onClick={() => setMobileMenuOpen(false)} className="text-ink">
+                 <X size={28} />
                </button>
             </div>
-            <nav className="flex flex-col gap-6 items-center flex-1 justify-center">
+            <nav className="flex flex-col gap-8 items-center flex-1 justify-center">
               {NAV_LINKS.map((link) => (
                 <a 
                   key={link} 
                   href={`#${link.toLowerCase()}`} 
-                  className="text-2xl font-bold hover:text-primary"
+                  className="text-4xl font-black text-ink hover:text-primary transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link}
                 </a>
               ))}
-              <button className="mt-10 px-10 py-4 bg-black text-white text-lg font-bold rounded-full">
-                Contact Now
+              <button className="mt-12 btn-pill bg-primary text-white !px-12 !py-4 text-lg modern-shadow">
+                Start a Project
               </button>
             </nav>
           </motion.div>
@@ -108,127 +118,84 @@ export default function App() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section id="home" className="relative overflow-hidden pt-32 pb-40">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="flex flex-col lg:flex-row items-center gap-24">
-              {/* Hero Left Content */}
-              <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-                <div className="inline-flex items-center gap-4 mb-10">
-                  <div className="accent-line"></div>
-                  <span className="text-[12px] font-bold uppercase tracking-[0.3em] text-primary">Boutique Creative Studio</span>
-                </div>
-                
-                <h1 className="text-7xl md:text-9xl font-black mb-10 leading-[0.9] tracking-tighter text-ink">
-                  Curated for <br /> <span className="text-serif-italic text-primary">Elegance</span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl text-ink/60 mb-14 font-medium max-w-lg leading-relaxed">
-                  We craft sophisticated digital experiences that mirror the prestige and vision of modern brands.
-                </p>
-
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
-                  <button className="btn-refined bg-ink text-white border-ink hover:bg-primary hover:border-primary luxury-shadow">
-                    Explore Studio
-                  </button>
-                  <button className="btn-refined bg-transparent text-ink border-ink/20 hover:border-ink">
-                    Start Dialogue
-                  </button>
-                </div>
-              </div>
-
-              {/* Hero Visual Right */}
-              <div className="flex-1 relative flex justify-center items-center w-full max-w-xl">
-                <div className="relative aspect-[4/5] w-full">
-                  <div className="absolute -inset-4 bg-primary/5 rounded-3xl -rotate-2"></div>
-                  
-                  <img 
-                    src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=800" 
-                    alt="Erita Studio Aesthetic" 
-                    className="relative w-full h-full object-cover rounded-2xl z-10 luxury-shadow"
-                    referrerPolicy="no-referrer"
-                  />
-                  
-                  {/* Floating Refined Card */}
-                  <div className="absolute -bottom-10 -left-10 bg-paper p-10 rounded-2xl z-20 luxury-shadow border border-ink/5">
-                     <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4 block">Current Status</span>
-                     <p className="text-2xl font-serif italic text-ink">Available for <br />new mandates.</p>
-                  </div>
-
-                  {/* Spinning Badge */}
-                  <div className="absolute -top-12 -right-12 z-20 w-44 h-44 bg-paper/90 backdrop-blur-sm rounded-full p-6 luxury-shadow flex items-center justify-center border border-ink/5">
-                    <div className="relative w-full h-full">
-                       <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-slow">
-                         <path 
-                           id="circlePath" 
-                           d="M 50, 50 m -42, 0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0" 
-                           fill="none"
-                         />
-                         <text className="text-[9px] font-bold uppercase tracking-[0.2em] fill-ink/40">
-                           <textPath xlinkHref="#circlePath">
-                              ERITA STUDIO • TIMELESS CREATION • 
-                           </textPath>
-                         </text>
-                       </svg>
-                       <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white luxury-shadow hover:scale-110 transition-transform cursor-pointer">
-                             <CirclePlay size={24} />
-                          </div>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section id="about" className="py-40 px-8 bg-paper relative overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-              <div className="relative">
-                <div className="aspect-[3/4] overflow-hidden rounded-2xl luxury-shadow relative group">
-                  <img 
-                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800" 
-                    alt="Erita Studio Environment" 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-primary/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                {/* Floating Meta */}
-                <div className="absolute top-12 -right-12 p-10 bg-paper luxury-shadow rounded-xl border border-ink/5 hidden md:block">
-                  <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4 block">Manifesto</span>
-                  <p className="text-2xl font-serif italic text-ink">Bespoke creation <br />for modern legacy.</p>
-                </div>
+        <section id="home" className="relative pt-40 pb-20 px-8">
+          <div className="max-w-7xl mx-auto relative">
+            <div className="flex flex-col items-center text-center">
+              {/* Monospace Greeting */}
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-8 h-[2px] bg-primary"></div>
+                <span className="font-mono text-sm font-bold text-ink/60 uppercase tracking-widest">Hello There!</span>
               </div>
               
-              <div className="flex flex-col">
-                <div className="inline-flex items-center gap-4 mb-8">
-                  <div className="accent-line"></div>
-                  <span className="text-primary font-bold text-xs uppercase tracking-[0.3em]">The Studio</span>
-                </div>
-                <h2 className="text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter text-ink mb-12">
-                  Artisans of the <br /> <span className="text-serif-italic text-primary">Digital Era</span>
-                </h2>
-                <div className="space-y-8 text-ink/60 text-lg font-medium leading-relaxed">
-                  <p>
-                    ERITA is a curated creative practice born from a desire to return to the artisan roots of brand and digital creation. 
-                    We operate at the intersection of timeless prestige and modern strategic depth.
-                  </p>
-                  <p>
-                    Our studio partners with luxury heritage brands and visionary pioneers to steward their visual narrative across the global landscape. 
-                    Every artifact we build is engineered for permanence, not just performance.
-                  </p>
-                </div>
-                <div className="mt-16 grid grid-cols-2 gap-12 border-t border-ink/5 pt-12">
-                  <div>
-                    <span className="text-4xl font-serif italic text-ink block mb-2">99%</span>
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Fidelity Rate</span>
+              <h1 className="text-6xl md:text-[100px] font-black leading-tight mb-8">
+                We're <span className="text-primary tracking-tighter">Plusslicemeat</span>
+              </h1>
+              
+              <p className="text-xl text-ink/60 font-medium max-w-2xl mb-12">
+                Premier UI/UX Design & Development Studio based in India, engineering high-fidelity digital products.
+              </p>
+
+              <div className="relative w-full max-w-2xl aspect-square flex items-center justify-center">
+                {/* Orange Background Circle */}
+                <div className="absolute w-[80%] aspect-square bg-primary rounded-full opacity-100"></div>
+                
+                {/* Hero Image */}
+                <img 
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600" 
+                  alt="Portfolio Star" 
+                  className="relative h-[110%] object-cover -mb-20 z-10"
+                  referrerPolicy="no-referrer"
+                />
+
+                {/* Floating Tags - Top Right */}
+                <div className="absolute top-[20%] right-0 z-20 flex flex-col items-end gap-3 scale-75 md:scale-100">
+                  <div className="bg-ink text-white px-6 py-2 rounded-full font-bold text-sm">Responsive</div>
+                  <div className="bg-primary text-white px-6 py-2 rounded-full font-bold text-sm">Dashboard</div>
+                  <div className="bg-ink text-white px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2">
+                    <Star size={14} className="fill-white" />
+                    Mobile App Design
                   </div>
-                  <div>
-                    <span className="text-4xl font-serif italic text-ink block mb-2">2026</span>
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">ESTABLISHED</span>
+                </div>
+
+                {/* Floating Tags - Top Left */}
+                <div className="absolute top-[30%] left-0 z-20 flex flex-col items-start gap-4 scale-75 md:scale-100">
+                   <div className="flex items-center gap-2 bg-white modern-shadow p-2 rounded-xl">
+                      <div className="w-10 h-10 bg-slate-100 rounded-lg"></div>
+                      <div className="pr-4">
+                        <div className="text-[10px] uppercase font-bold text-slate-400 leading-none">Rating</div>
+                        <div className="font-bold text-ink">4.9 of 5</div>
+                      </div>
+                   </div>
+                   <div className="text-ink font-bold leading-tight bg-white p-4 rounded-xl modern-shadow border border-slate-50">
+                    "Exceptional Design <br /> Highly Recommended"
+                   </div>
+                </div>
+
+                {/* Main Hero Buttons */}
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4 bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30">
+                  <button className="bg-ink text-white btn-pill flex items-center gap-3">
+                    Portfolio
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                       <ArrowUpRight size={14} />
+                    </div>
+                  </button>
+                  <button className="bg-white text-ink btn-pill border border-slate-200">
+                    Hire Us
+                  </button>
+                </div>
+              </div>
+
+              {/* Spinning Badge */}
+              <div className="absolute top-0 right-0 w-32 h-32 md:w-44 md:h-44">
+                <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-slow">
+                  <path id="badgePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+                  <text className="text-[8px] font-black uppercase tracking-[0.2em] fill-ink">
+                    <textPath xlinkHref="#badgePath">PLUSSLICEMEAT STUDIO • HIGH END DESIGN • </textPath>
+                  </text>
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-10 h-10 md:w-14 md:h-14 bg-primary rounded-full flex items-center justify-center text-white modern-shadow">
+                    <Star size={24} fill="white" />
                   </div>
                 </div>
               </div>
@@ -237,44 +204,93 @@ export default function App() {
         </section>
 
         {/* Services Strip */}
-        <section className="bg-ink py-[30px] overflow-hidden whitespace-nowrap">
-          <div className="flex items-center justify-around text-[11px] uppercase tracking-[3px] font-bold">
-            {['Brand Architecture', 'Couture Design', 'Digital Strategy', 'Visual Identity'].map((item, i) => (
-              <div key={item} className="flex items-center gap-[12px] text-paper/40">
-                {i > 0 && <div className="w-[4px] h-[4px] bg-primary rounded-full"></div>}
-                <span>{item}</span>
+        <section className="bg-ink py-6 overflow-hidden">
+          <div className="flex items-center animate-marquee">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex items-center gap-12 text-white font-bold text-xl md:text-3xl uppercase tracking-tighter px-6">
+                {['Website Design', 'Dashboard', 'Wireframe', 'User Research'].map((item) => (
+                  <div key={item} className="flex items-center gap-6">
+                    <div className="flex items-center gap-1">
+                      <Star size={20} className="text-primary fill-primary rotate-45" />
+                      <Star size={20} className="text-primary fill-primary -rotate-45" />
+                    </div>
+                    <span>{item}</span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         </section>
 
+        {/* About Section */}
+        <section id="about" className="py-40 px-8 bg-paper relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+              <div className="relative">
+                <div className="aspect-[3/4] overflow-hidden rounded-[40px] modern-shadow relative group">
+                  <img 
+                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800" 
+                    alt="Plusslicemeat Studio" 
+                    className="w-full h-full object-cover transition-all duration-1000"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                {/* Floating Meta */}
+                <div className="absolute top-12 -right-12 p-10 bg-white modern-shadow rounded-3xl border border-slate-100 hidden md:block">
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4 block">Our Creed</span>
+                  <p className="text-2xl font-black text-ink">Design that <br />Drives Result.</p>
+                </div>
+              </div>
+              
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2 mb-8">
+                  <div className="w-8 h-[2px] bg-primary"></div>
+                  <span className="text-primary font-bold text-sm uppercase tracking-widest">About Plusslicemeat</span>
+                </div>
+                <h2 className="text-6xl md:text-8xl font-black leading-tight mb-12">
+                  Engineering <br /> <span className="text-primary italic">Innovation</span>
+                </h2>
+                <div className="space-y-8 text-ink/60 text-lg font-medium leading-relaxed">
+                  <p>
+                    Plusslicemeat is a premier technology and design studio dedicated to transforming complex challenges into seamless digital products.
+                  </p>
+                  <p>
+                    We partner with global brands to engineer high-fidelity experiences that combine technical excellence with human-centric design.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Strategic Process */}
-        <section className="py-40 px-8 bg-surface/50 relative overflow-hidden">
+        <section className="py-40 px-8 bg-surface relative overflow-hidden">
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-24">
               <div className="flex flex-col">
-                <div className="inline-flex items-center gap-4 mb-8">
-                   <div className="accent-line"></div>
-                   <span className="text-primary font-bold text-xs uppercase tracking-[0.3em]">The Erita Method</span>
+                <div className="flex items-center gap-2 mb-8">
+                   <div className="w-8 h-[2px] bg-primary"></div>
+                   <span className="text-primary font-bold text-sm uppercase tracking-widest text-ink">The Build Method</span>
                 </div>
-                <h2 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-ink mb-10">
-                  A Curated <br /> <span className="text-serif-italic text-primary">Process</span>
+                <h2 className="text-6xl md:text-8xl font-black leading-tight mb-10">
+                  Our Strategic <br /> <span className="text-primary italic">Process</span>
                 </h2>
                 <p className="text-ink/60 text-lg font-medium leading-relaxed max-w-sm">
-                   We follow a meticulous path to ensure every digital artifact is a masterpiece, balancing strategic intent with artisan execution.
+                   We follow a meticulous path to ensure every digital product is engineered for high performance and visual impact.
                 </p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {[
-                  { title: 'Bespoke Audit', desc: 'A deep exploration into your brand essence and market position to define a unique digital trajectory.' },
-                  { title: 'Refined Design', desc: 'Crafting visual languages that communicate prestige, utilizing elite typography and spatial harmony.' },
-                  { title: 'Couture Build', desc: 'Developing with a focus on seamless interactions and pixel-perfect fidelity across all platforms.' },
-                  { title: 'Elevated Launch', desc: 'Strategic deployment followed by iterative refinement to ensure long-term brand dominance.' }
+                  { title: 'Bespoke Audit', desc: 'A deep exploration into your product logic and market position to define a unique trajectory.' },
+                  { title: 'Refined Design', desc: 'Crafting visual languages that communicate efficiency, utilizing modern typography and spatial harmony.' },
+                  { title: 'Agile Build', desc: 'Developing with a focus on seamless interactions and pixel-perfect fidelity across platforms.' },
+                  { title: 'Launch & Scale', desc: 'Strategic deployment followed by iterative refinement to ensure long-term market dominance.' }
                 ].map((step, i) => (
-                  <div key={step.title} className="group p-10 bg-paper rounded-2xl border border-ink/5 hover:border-primary/20 transition-all duration-500 luxury-shadow">
-                    <span className="inline-block text-[10px] font-bold text-primary mb-8 px-4 py-1 bg-primary/10 rounded-full tracking-widest uppercase">Phase 0{i+1}</span>
-                    <h3 className="text-3xl font-serif font-black text-ink mb-6 italic">{step.title}</h3>
-                    <p className="text-ink/50 text-[16px] leading-[1.8] font-medium">
+                  <div key={step.title} className="group p-10 bg-white rounded-[40px] border border-slate-100 hover:border-primary/20 transition-all duration-500 modern-shadow">
+                    <span className="inline-block text-[14px] font-black text-primary mb-8 px-4 py-1 bg-primary/10 rounded-full tracking-widest">PHASE 0{i+1}</span>
+                    <h3 className="text-3xl font-black text-ink mb-6">{step.title}</h3>
+                    <p className="text-ink/40 text-[16px] leading-[1.8] font-medium">
                       {step.desc}
                     </p>
                   </div>
@@ -285,40 +301,40 @@ export default function App() {
         </section>
 
         {/* Services Highlight Section */}
-        <section className="py-40 px-8 bg-paper" id="services">
+        <section className="py-40 px-8 bg-surface" id="services">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-24 items-end mb-24">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
                <div>
-                  <div className="inline-flex items-center gap-4 mb-8">
-                    <div className="accent-line"></div>
-                    <span className="text-primary font-bold text-xs uppercase tracking-[0.3em]">Our Offerings</span>
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="w-8 h-[2px] bg-primary"></div>
+                    <span className="font-mono text-sm font-bold text-ink/60 uppercase tracking-widest">My Specialization</span>
                   </div>
-                  <h2 className="text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter text-ink">
-                    Elevated <br /><span className="text-serif-italic text-primary">Solutions</span>
+                  <h2 className="text-6xl md:text-8xl font-black">
+                    Services <span className="text-primary italic">I Provide</span>
                   </h2>
                </div>
-               <p className="max-w-xl text-ink/60 text-xl font-medium leading-relaxed pb-4">
-                  ERITA studio handles every detail of your digital presence with artisan-level care and strategic precision.
+               <p className="max-w-md text-ink/40 font-medium text-sm leading-relaxed">
+                  Elevating your digital existence with precise UI/UX engineering and innovative design strategies.
                </p>
             </div>
 
             {/* Accordion List */}
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-6">
                {SERVICES.map((service) => (
-                 <div key={service.id} className="border-t border-ink/5 first:border-t-0">
+                 <div key={service.id} className="group">
                    <div 
-                     className="py-12 flex flex-col md:flex-row items-start md:items-center justify-between cursor-pointer group transition-all"
+                     className={`p-8 md:p-12 flex items-center justify-between cursor-pointer transition-all rounded-[40px] ${activeAccordion === service.id ? 'bg-ink text-white modern-shadow' : 'bg-white hover:bg-slate-50 border border-slate-100'}`}
                      onClick={() => setActiveAccordion(activeAccordion === service.id ? null : service.id)}
                    >
-                     <div className="flex items-center gap-12 mb-4 md:mb-0">
-                        <span className="text-xs font-bold text-primary tracking-widest">
-                          0{service.id}
+                     <div className="flex items-center gap-8">
+                        <span className={`text-xl font-black ${activeAccordion === service.id ? 'text-primary' : 'text-slate-200'}`}>
+                          {service.id}.
                         </span>
-                        <h3 className="text-3xl md:text-5xl font-serif italic text-ink group-hover:translate-x-4 transition-transform duration-500">
+                        <h3 className="text-2xl md:text-4xl font-black">
                           {service.title}
                         </h3>
                      </div>
-                     <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all border border-ink/10 ${activeAccordion === service.id ? 'bg-primary text-white rotate-45 border-primary' : 'text-primary group-hover:bg-primary group-hover:text-white'}`}>
+                     <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeAccordion === service.id ? 'bg-primary text-white' : 'text-ink group-hover:text-primary transition-colors'}`}>
                         <ArrowUpRight size={24} />
                      </div>
                    </div>
@@ -329,34 +345,32 @@ export default function App() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
+                        className="overflow-hidden bg-ink -mt-10 pt-10 rounded-b-[40px] px-8 md:px-12 pb-16"
                        >
-                          <div className="flex flex-col lg:flex-row gap-20 pb-16 items-start">
+                          <div className="flex flex-col lg:flex-row gap-16 items-center">
                              <div className="flex-1">
                                 <div className="flex flex-wrap gap-4 mb-10">
                                    {service.tags?.map(tag => (
-                                     <span key={tag} className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary bg-primary/5 px-6 py-2 rounded-full">
+                                     <span key={tag} className="text-[12px] font-bold uppercase tracking-widest bg-white/10 text-white/80 px-6 py-2 rounded-full border border-white/5">
                                        {tag}
                                      </span>
                                    ))}
                                 </div>
-                                <p className="text-ink/60 text-2xl font-serif italic leading-relaxed">
+                                <p className="text-white/60 text-lg leading-relaxed font-medium mb-10">
                                    {service.description}
                                 </p>
-                             </div>
-                             {service.image && (
-                               <div className="flex-1 w-full max-w-2xl">
-                                  <div className="relative overflow-hidden luxury-shadow">
+                                {service.image && (
+                                  <div className="relative overflow-hidden rounded-3xl luxury-shadow group/img">
                                     <img 
                                       src={service.image} 
                                       alt={service.title} 
-                                      className="w-full aspect-[16/9] object-cover"
+                                      className="w-full aspect-video object-cover"
                                       referrerPolicy="no-referrer"
                                     />
-                                    <div className="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+                                    <div className="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
                                   </div>
-                               </div>
-                             )}
+                                )}
+                             </div>
                           </div>
                        </motion.div>
                      )}
@@ -365,59 +379,57 @@ export default function App() {
                ))}
             </div>
 
-            {/* View More Button */}
-            <div className="mt-24 flex justify-center">
-               <button className="group flex items-center gap-6 bg-ink text-white px-12 py-6 rounded-full font-bold text-xs uppercase tracking-[0.3em] hover:bg-primary transition-all luxury-shadow active:scale-95">
-                  The Full Portfolio
-                  <ChevronRight size={20} className="group-hover:translate-x-2 transition-transform" />
+            <div className="mt-20 flex justify-center">
+               <button className="bg-primary text-white btn-pill flex items-center gap-3">
+                  Let's Talk
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                     <ChevronRight size={18} />
+                  </div>
                </button>
             </div>
           </div>
         </section>
 
         {/* Portfolio Section */}
-        <section id="portfolio" className="py-40 px-8 bg-paper">
+        <section id="portfolio" className="py-40 px-8 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
               <div className="max-w-xl">
-                 <div className="inline-flex items-center gap-4 mb-8">
-                   <div className="accent-line"></div>
-                   <span className="text-primary font-bold text-xs uppercase tracking-[0.3em]">Curated Works</span>
+                 <div className="flex items-center gap-2 mb-8">
+                   <div className="w-8 h-[2px] bg-primary"></div>
+                   <span className="text-primary font-bold text-sm uppercase tracking-widest">Recent Case Studies</span>
                  </div>
-                 <h2 className="text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter text-ink">
-                    The <span className="text-serif-italic text-primary">Archives</span>
+                 <h2 className="text-6xl md:text-8xl font-black">
+                    Our <span className="text-primary italic">Portfolio</span>
                  </h2>
               </div>
               <div className="flex gap-4">
-                 {['All', 'Brand', 'Digital', 'Physical'].map(cat => (
-                   <button key={cat} className={`px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${cat === 'All' ? 'bg-ink text-white' : 'border border-ink/10 text-ink hover:border-primary'}`}>
+                 {['All', 'Mobile', 'Web', 'Branding'].map(cat => (
+                   <button key={cat} className={`btn-pill !px-6 !py-2 text-[12px] uppercase transition-all ${cat === 'All' ? 'bg-primary text-white' : 'bg-slate-50 text-ink/60 hover:bg-slate-100'}`}>
                       {cat}
                    </button>
                  ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                {[
-                 { title: 'Auralis Timepieces', cat: 'Digital Creation', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800' },
-                 { title: 'Lumiere Maison', cat: 'Brand Identity', img: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=800' },
-                 { title: 'Nordic Essence', cat: 'Strategic Audit', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800' },
-                 { title: 'Velvet Horizon', cat: 'Mobile Experience', img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800' },
-                 { title: 'Onyx Collective', cat: 'Visual Content', img: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800' },
-                 { title: 'Ethereal State', cat: 'High-End Web', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800' }
+                 { title: 'Auralis Timepieces', cat: 'E-Commerce App', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800' },
+                 { title: 'Lumiere Maison', cat: 'Landing Page', img: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=800' },
+                 { title: 'Nordic Essence', cat: 'UX Audit', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800' }
                ].map((work, i) => (
-                 <div key={work.title} className="group relative overflow-hidden rounded-2xl luxury-shadow cursor-pointer aspect-[4/5]">
+                 <div key={work.title} className="group relative overflow-hidden rounded-[40px] modern-shadow cursor-pointer aspect-[4/5] bg-slate-100">
                     <img 
                       src={work.img} 
                       alt={work.title} 
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-12 text-center">
-                       <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em] mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{work.cat}</span>
-                       <h3 className="text-3xl font-serif italic text-white mb-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">{work.title}</h3>
-                       <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-ink transform scale-0 group-hover:scale-100 transition-transform duration-500 delay-150">
-                          <ArrowUpRight size={20} />
+                    <div className="absolute inset-x-6 bottom-6 bg-white/90 backdrop-blur-md p-8 rounded-[30px] translate-y-2 group-hover:translate-y-0 transition-all opacity-0 group-hover:opacity-100 border border-white/50">
+                       <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2 block">{work.cat}</span>
+                       <h3 className="text-2xl font-black text-ink mb-4">{work.title}</h3>
+                       <div className="flex items-center gap-2 text-ink font-bold text-sm">
+                          Explore Case Study <ChevronRight size={16} className="text-primary" />
                        </div>
                     </div>
                  </div>
@@ -426,25 +438,25 @@ export default function App() {
           </div>
         </section>
 
-        {/* SEO SECTION: FAQ */}
-        <section className="py-40 px-8 bg-surface border-t border-ink/5">
+        {/* FAQ SECTION */}
+        <section className="py-40 px-8 bg-surface">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-24">
-              <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-8 block">Bespoke Insights</span>
-              <h2 className="text-6xl md:text-8xl font-black text-ink tracking-tighter mb-10">Artisan <span className="text-serif-italic text-primary">Intelligence</span></h2>
-              <p className="text-ink/60 text-xl font-medium font-serif italic">Commonly discussed during our first consultation.</p>
+              <span className="text-primary font-bold text-sm uppercase tracking-widest mb-6 block">Common Queries</span>
+              <h2 className="text-6xl md:text-8xl font-black mb-10 tracking-tighter">Artisan <span className="text-primary italic">Intelligence</span></h2>
+              <p className="text-ink/60 text-xl font-medium">Clear answers for your digital transformation journey.</p>
             </div>
 
             <div className="flex flex-col gap-8">
                {[
-                 { q: 'What is the ERITA creative philosophy?', a: 'We believe in timeless aesthetic and strategic silence. Every element must serve a purpose and mirror the prestige of the brand it represents.' },
-                 { q: 'How long does a boutique digital creation take?', a: 'Artisan work takes time. A typical bespoke digital existence is birthed over 12 to 16 weeks of meticulous refinement.' },
-                 { q: 'Do you offer ongoing brand stewardship?', a: 'Yes, we partner with a select number of brands annually to provide long-term visual guardianship and strategic evolution.' },
-                 { q: 'Can ERITA modernise an established heritage brand?', a: 'We specialise in heritage evolution. Respecting the history while engineering a future-proof digital prestige.' }
+                 { q: 'What is the Plusslicemeat design philosophy?', a: 'We believe in data-driven aesthetics where every element serves a functional purpose while maintaining high visual appeal.' },
+                 { q: 'How long does a digital product take to build?', a: 'A typical high-fidelity product is birthed over 8 to 12 weeks of meticulous engineering and refinement.' },
+                 { q: 'Do you offer ongoing technology support?', a: 'Yes, we provide long-term partnership models for continuous evolution and cloud-native optimizations.' },
+                 { q: 'Can you modernize an established enterprise?', a: 'Specializing in legacy transformation, we bridge the gap between heritage operations and modern digital excellence.' }
                ].map((faq, i) => (
-                 <div key={i} className="bg-paper p-12 rounded-2xl border border-ink/5 hover:border-primary/20 transition-all group luxury-shadow">
-                    <h4 className="text-2xl font-serif italic font-black text-ink mb-6 group-hover:text-primary transition-colors">{faq.q}</h4>
-                    <p className="text-ink/50 text-[16px] leading-[1.8] font-medium">
+                 <div key={i} className="bg-white p-10 md:p-12 rounded-[40px] border border-slate-100 hover:border-primary/20 transition-all group modern-shadow">
+                    <h4 className="text-2xl font-black text-ink mb-6 group-hover:text-primary transition-colors">{faq.q}</h4>
+                    <p className="text-ink/40 text-[16px] leading-[1.8] font-medium">
                        {faq.a}
                     </p>
                  </div>
@@ -453,61 +465,58 @@ export default function App() {
           </div>
         </section>
 
-        {/* New "Let's Connect" Section */}
-        <section className="py-60 px-8 bg-paper relative overflow-hidden" id="contact">
+        {/* Let's Connect Section */}
+        <section className="py-60 px-8 bg-white relative overflow-hidden" id="contact">
           <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center text-center">
-            <span className="inline-block text-primary font-bold text-xs uppercase tracking-[0.3em] mb-12 px-10 py-3 bg-primary/5 rounded-full">A New Dialogue</span>
-            <h2 className="text-[60px] md:text-[140px] font-black leading-[0.8] tracking-tighter mb-20 max-w-6xl text-ink">
-              Craft with <br /> <span className="text-serif-italic text-primary">ERITA</span>.
+            <span className="inline-block text-primary font-bold text-sm uppercase tracking-widest mb-12 px-10 py-3 bg-primary/5 rounded-full">New Dialogue</span>
+            <h2 className="text-[60px] md:text-[140px] font-black leading-tight tracking-tighter mb-20 max-w-6xl">
+              Build with <br /> <span className="text-primary italic">Plusslicemeat</span>.
             </h2>
             
             <div className="flex flex-col md:flex-row gap-16 items-center">
                <a 
-                 href="mailto:studio@erita.io"
+                 href="mailto:hello@plusslicemeat.com"
                  className="group text-4xl md:text-6xl font-black text-ink hover:text-primary transition-all flex items-center gap-6"
                >
-                 studio@erita.io
-                 <div className="w-16 h-16 border border-ink/10 rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                 hello@plusslicemeat.com
+                 <div className="w-16 h-16 border border-slate-100 rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
                     <ArrowUpRight size={32} />
                  </div>
                </a>
             </div>
-            <p className="mt-20 text-ink/30 font-bold text-[10px] uppercase tracking-[0.4em]">
-                Bespoke Digital existence by ERITA Studio.
-            </p>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="py-32 px-8 bg-ink text-paper">
-           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-24">
-              <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left">
-                 <div className="text-4xl font-serif font-black italic tracking-widest uppercase">ERITA.</div>
-                 <p className="text-[16px] text-paper/40 max-w-xs font-medium italic">Crafting digital prestige for the world's most ambitious visions.</p>
-                 <div className="flex flex-col gap-2">
-                    <p className="text-[10px] text-paper/20 uppercase font-black tracking-widest">© 2026 ERITA CREATIVE LTD. All rights reserved.</p>
-                    <p className="text-[10px] text-paper/20 uppercase font-black tracking-widest">
-                       Designed by <a href="https://www.ozosoft.in/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OZOSOFT</a>
+        <footer className="py-24 px-8 bg-ink text-white">
+           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-16">
+              <div className="flex flex-col gap-6 items-center lg:items-start text-center lg:text-left">
+                 <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                      <span className="font-black text-xl">P</span>
+                    </div>
+                    <div className="text-2xl font-black">Plusslicemeat.</div>
+                 </div>
+                 <p className="text-sm text-white/40 max-w-xs font-medium">Exceptional UI/UX Design & Development Studio based in India.</p>
+                 <div className="flex flex-col gap-1">
+                    <p className="text-[12px] text-white/20 font-bold uppercase tracking-widest leading-none">© 2026 PLUSSLICEMEAT CREATIVE. ALL RIGHTS RESERVED.</p>
+                    <p className="text-[12px] text-white/20 font-bold uppercase tracking-widest">
+                       Designed by <a href="https://www.ozosoft.in/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-all">OZOSOFT</a>
                     </p>
                  </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-16 lg:gap-32">
-                 <div className="flex flex-col gap-6">
-                    <span className="text-[10px] font-black text-paper/20 uppercase tracking-[0.3em]">The Studio</span>
-                    {NAV_LINKS.slice(0, 3).map(link => <a key={link} href={`#${link.toLowerCase()}`} className="text-[12px] font-bold text-paper/60 hover:text-primary transition-all tracking-widest uppercase">{link}</a>)}
-                 </div>
-                 <div className="flex flex-col gap-6">
-                    <span className="text-[10px] font-black text-paper/20 uppercase tracking-[0.3em]">Dialogue</span>
-                    {NAV_LINKS.slice(3).map(link => <a key={link} href={`#${link.toLowerCase()}`} className="text-[12px] font-bold text-paper/60 hover:text-primary transition-all tracking-widest uppercase">{link}</a>)}
-                 </div>
+              <div className="flex flex-wrap justify-center gap-10">
+                {NAV_LINKS.map(link => (
+                  <a key={link} href={`#${link.toLowerCase()}`} className="text-sm font-bold text-white/60 hover:text-primary transition-all uppercase tracking-widest">{link}</a>
+                ))}
               </div>
 
-              <div className="flex items-center gap-6">
-                  <a href="#" className="w-14 h-14 flex items-center justify-center border border-paper/10 rounded-full hover:bg-primary hover:border-primary transition-all"><Facebook size={20} /></a>
-                  <a href="#" className="w-14 h-14 flex items-center justify-center border border-paper/10 rounded-full hover:bg-primary hover:border-primary transition-all"><Twitter size={20} /></a>
-                  <a href="#" className="w-14 h-14 flex items-center justify-center border border-paper/10 rounded-full hover:bg-primary hover:border-primary transition-all"><Instagram size={20} /></a>
-                  <a href="#" className="w-14 h-14 flex items-center justify-center border border-paper/10 rounded-full hover:bg-primary hover:border-primary transition-all"><Linkedin size={20} /></a>
+              <div className="flex items-center gap-4">
+                  <a href="#" className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-full hover:bg-primary transition-all"><Facebook size={18} /></a>
+                  <a href="#" className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-full hover:bg-primary transition-all"><Twitter size={18} /></a>
+                  <a href="#" className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-full hover:bg-primary transition-all"><Instagram size={18} /></a>
+                  <a href="#" className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-full hover:bg-primary transition-all"><Linkedin size={18} /></a>
               </div>
            </div>
         </footer>

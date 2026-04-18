@@ -1,46 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
-  --color-primary: #C5A17A; /* Refined Bronze */
-  --color-ink: #1A1A1A;
-  --color-paper: #FFFDF9; /* Warm Bone */
-  --color-surface: #F9F6F1; /* Soft Sand */
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #FF4D00;
+  --color-ink: #0F172A;
+  --color-paper: #FFFFFF;
+  --color-surface: #F8FAFC;
 }
 
 @layer base {
   body {
-    @apply font-sans bg-paper text-ink antialiased leading-relaxed;
-    background-image: 
-      radial-gradient(circle at 2px 2px, rgba(197, 161, 122, 0.08) 1px, transparent 0);
-    background-size: 48px 48px;
+    @apply font-sans bg-paper text-ink antialiased;
   }
 
-  h1, h2, h3 {
-    @apply font-serif;
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-paper/80 backdrop-blur-md border-b border-ink/5;
+    @apply bg-white/80 backdrop-blur-md border-b border-gray-100;
   }
   
-  .luxury-shadow {
-    box-shadow: 0 30px 60px -12px rgba(26, 26, 26, 0.08), 0 18px 36px -18px rgba(26, 26, 26, 0.1);
+  .modern-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
   }
 
-  .text-serif-italic {
-    @apply font-serif italic font-normal;
+  .text-primary-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-ink to-primary;
   }
 
-  .btn-refined {
-    @apply px-10 py-5 rounded-full font-sans font-semibold tracking-wide border-2 transition-all duration-300;
+  .btn-pill {
+    @apply rounded-full px-8 py-4 font-bold transition-all duration-300 transform active:scale-95;
   }
 
-  .accent-line {
-    @apply w-12 h-[1px] bg-primary block;
+  .accent-shape {
+    @apply absolute bg-primary rounded-full;
   }
 }
